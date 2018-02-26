@@ -24,14 +24,20 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
     Sandwich sandwich = new Sandwich();
-
-
+    TextView mPlaceOfOriginTV;
+    TextView mDescriptionTV;
+    TextView mIngredients;
+    TextView mAlsoKnownAsTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
+        mPlaceOfOriginTV = findViewById(R.id.origin_tv);
+        mDescriptionTV = findViewById(R.id.description_tv);
+        mIngredients = findViewById(R.id.ingredients_tv);
+        mAlsoKnownAsTV = findViewById(R.id.also_known_tv);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -74,17 +80,15 @@ public class DetailActivity extends AppCompatActivity {
     // populating the extracted data from json on the DetailActivity
     private void populateUI(Sandwich sandwich) {
 
-        TextView placeOfOriginTV = findViewById(R.id.origin_tv);
-        placeOfOriginTV.setText(sandwich.getPlaceOfOrigin());
+        // set the location of making this sandwich on its own TextView that extracted from JSON
+        mPlaceOfOriginTV.setText(sandwich.getPlaceOfOrigin());
+        // set the description of making this sandwich on its own TextView that extracted from JSON
+        mDescriptionTV.setText(sandwich.getDescription());
+        // set the ingredients of making this sandwich on its own TextView that extracted from JSON
+        mIngredients.setText(getStringsFromList(sandwich.getIngredients()));
+        // set the other names of this sandwich on its own TextView that extracted from JSON
+        mAlsoKnownAsTV.setText(getStringsFromList(sandwich.getAlsoKnownAs()));
 
-        TextView descriptionTV = findViewById(R.id.description_tv);
-        descriptionTV.setText(sandwich.getDescription());
-
-        TextView ingredients = findViewById(R.id.ingredients_tv);
-        ingredients.setText(getStringsFromList(sandwich.getIngredients()));
-
-        TextView alsoKnownAsTV = findViewById(R.id.also_known_tv);
-        alsoKnownAsTV.setText(getStringsFromList(sandwich.getAlsoKnownAs()));
     }
     // this method for getting strings from List<String> using StringBuffer
     public String getStringsFromList(List<String> list) {
